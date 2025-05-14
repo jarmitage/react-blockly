@@ -1,6 +1,7 @@
 import * as Blockly from "blockly/core";
 import { WorkspaceSvg } from "blockly";
 import { RefObject } from "react";
+import React from "react";
 
 export interface CommonBlocklyProps {
   initialXml?: string;
@@ -17,8 +18,11 @@ export interface CommonBlocklyProps {
 }
 export interface BlocklyWorkspaceProps extends CommonBlocklyProps {
   className?: string;
+  style?: React.CSSProperties;
   onXmlChange?: (xml: string) => void;
   onJsonChange?: (worksapceJson: object) => void;
+  height?: string | number;
+  width?: string | number;
 }
 export interface UseBlocklyProps extends CommonBlocklyProps {
   ref: RefObject<Element>;

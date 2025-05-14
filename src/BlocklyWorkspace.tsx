@@ -9,6 +9,7 @@ const propTypes = {
   toolboxConfiguration: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   workspaceConfiguration: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   className: PropTypes.string,
+  style: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   onWorkspaceChange: PropTypes.func,
   onImportXmlError: PropTypes.func,
   onImportError: PropTypes.func,
@@ -16,6 +17,8 @@ const propTypes = {
   onJsonChange: PropTypes.func,
   onInject: PropTypes.func,
   onDispose: PropTypes.func,
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 function BlocklyWorkspace({
@@ -24,6 +27,7 @@ function BlocklyWorkspace({
   toolboxConfiguration,
   workspaceConfiguration,
   className,
+  style: explicitStyle,
   onWorkspaceChange,
   onXmlChange,
   onJsonChange,
@@ -31,6 +35,8 @@ function BlocklyWorkspace({
   onImportError,
   onInject,
   onDispose,
+  height,
+  width,
 }: BlocklyWorkspaceProps) {
   const editorDiv = React.useRef(null);
   const { xml, json } = useBlocklyWorkspace({
@@ -62,7 +68,15 @@ function BlocklyWorkspace({
     }
   }, [xml, json]);
 
-  return <div className={className} ref={editorDiv} />;
+  const divStyle: React.CSSProperties = explicitStyle ? { ...explicitStyle } : {};
+  if (height !== undefined) {
+    divStyle.height = typeof height === 'number' ? `${height}px` : height;
+  }
+  if (width !== undefined) {
+    divStyle.width = typeof width === 'number' ? `${width}px` : width;
+  }
+
+  return <div className={className} style={divStyle} ref={editorDiv} />;
 }
 
 BlocklyWorkspace.propTypes = propTypes;
